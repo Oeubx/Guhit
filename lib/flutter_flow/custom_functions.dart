@@ -8,38 +8,55 @@ import 'package:timeago/timeago.dart' as timeago;
 import 'lat_lng.dart';
 import 'place.dart';
 import 'uploaded_file.dart';
-import '/backend/backend.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import '/auth/firebase_auth/auth_util.dart';
+import '/backend/supabase/supabase.dart';
+import '/auth/supabase_auth/auth_util.dart';
 
-List<String> generateListOfNames(
-  String authUserName,
-  String otherUserName,
-) {
-  return [authUserName, otherUserName];
+DateTime getCurrentTime(DateTime currentTimeValue) {
+  return currentTimeValue.subtract(const Duration(hours: 8));
 }
 
-List<DocumentReference> generateListOfUsers(
-  DocumentReference authUser,
-  DocumentReference chosenUser,
-) {
-  return [authUser, chosenUser];
+double getAverageRating(List<CommissionRow>? commissionRows) {
+// If the list is empty or null, return a default starting rating
+  if (commissionRows == null || commissionRows.isEmpty) {
+    return 0.0;
+  }
+
+  double total = 0.0;
+  int count = 0;
+
+  for (var row in commissionRows) {
+    // Replace 'commissionRating' with your exact column field name if different
+    if (row.commissionRating != null) {
+      total += row.commissionRating!;
+      count++;
+    }
+  }
+
+  // Prevent dividing by zero if no rows had ratings
+  return count > 0 ? (total / count) : 0.0;
 }
 
-String getOtherUserName(
-  List<String> listOfNames,
-  String authUserName,
-) {
-  return authUserName == listOfNames.first
-      ? listOfNames.last
-      : listOfNames.first;
-}
+List<String>? parseStringToList(String inputString) {
+  if (inputString.isEmpty) {
+    return [];
+  }
 
-DocumentReference getOtherUserRef(
-  List<DocumentReference> listOfUserRefs,
-  DocumentReference authUserRef,
-) {
-  return authUserRef == listOfUserRefs.first
-      ? listOfUserRefs.last
-      : listOfUserRefs.first;
+  try {
+    String cleanInput = inputString.trim();
+
+    // Parse the clean string representation of a JSON array
+    if (cleanInput.startsWith('[')) {
+      List<dynamic> decoded = jsonDecode(cleanInput);
+      return decoded.map((item) => item.toString().trim()).toList();
+    }
+
+    // Fallback: If Gemini ignores format rules and sends a comma/newline separated string
+    return cleanInput
+        .split(RegExp(r'[\n,]'))
+        .map((item) => item.trim())
+        .where((item) => item.isNotEmpty)
+        .toList();
+  } catch (e) {
+    return [];
+  }
 }

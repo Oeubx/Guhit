@@ -1,4 +1,4 @@
-package com.flutterflow.guhit
+package com.mycompany.aguhit
 
 import io.flutter.embedding.android.FlutterActivity
 

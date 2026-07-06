@@ -1,12 +1,20 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:provider/provider.dart';
+
+import '/backend/supabase/supabase.dart';
 
 import '/auth/base_auth_user_provider.dart';
 
+import '/main.dart';
 import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/lat_lng.dart';
+import '/flutter_flow/place.dart';
 import '/flutter_flow/flutter_flow_util.dart';
+import 'serialization_util.dart';
 
 import '/index.dart';
 
@@ -76,18 +84,24 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
       refreshListenable: appStateNotifier,
       navigatorKey: appNavigatorKey,
       errorBuilder: (context, state) =>
-          appStateNotifier.loggedIn ? MainPageWidget() : OnboardingWidget(),
+          appStateNotifier.loggedIn ? PageHomeWidget() : SplashIntroWidget(),
       routes: [
         FFRoute(
           name: '_initialize',
           path: '/',
-          builder: (context, _) =>
-              appStateNotifier.loggedIn ? MainPageWidget() : OnboardingWidget(),
+          builder: (context, _) => appStateNotifier.loggedIn
+              ? PageHomeWidget()
+              : SplashIntroWidget(),
         ),
         FFRoute(
-          name: OnboardingWidget.routeName,
-          path: OnboardingWidget.routePath,
-          builder: (context, params) => OnboardingWidget(),
+          name: SplashIntroWidget.routeName,
+          path: SplashIntroWidget.routePath,
+          builder: (context, params) => SplashIntroWidget(),
+        ),
+        FFRoute(
+          name: SignInPageWidget.routeName,
+          path: SignInPageWidget.routePath,
+          builder: (context, params) => SignInPageWidget(),
         ),
         FFRoute(
           name: SignUpPageWidget.routeName,
@@ -95,159 +109,102 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => SignUpPageWidget(),
         ),
         FFRoute(
-          name: SignUpProfileDetailsWidget.routeName,
-          path: SignUpProfileDetailsWidget.routePath,
-          builder: (context, params) => SignUpProfileDetailsWidget(),
-        ),
-        FFRoute(
-          name: EmailVerificationWidget.routeName,
-          path: EmailVerificationWidget.routePath,
-          builder: (context, params) => EmailVerificationWidget(),
-        ),
-        FFRoute(
-          name: EmailVerifiedWidget.routeName,
-          path: EmailVerifiedWidget.routePath,
-          builder: (context, params) => EmailVerifiedWidget(),
-        ),
-        FFRoute(
-          name: MainPageWidget.routeName,
-          path: MainPageWidget.routePath,
-          builder: (context, params) => MainPageWidget(),
-        ),
-        FFRoute(
-          name: IfArtistPostArtWidget.routeName,
-          path: IfArtistPostArtWidget.routePath,
-          builder: (context, params) => IfArtistPostArtWidget(),
-        ),
-        FFRoute(
-          name: LogInPageWidget.routeName,
-          path: LogInPageWidget.routePath,
-          builder: (context, params) => LogInPageWidget(),
-        ),
-        FFRoute(
-          name: ProfileWidget.routeName,
-          path: ProfileWidget.routePath,
-          builder: (context, params) => ProfileWidget(
-            userReference: params.getParam(
-              'userReference',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['users'],
+          name: ViewProfileNonAuthWidget.routeName,
+          path: ViewProfileNonAuthWidget.routePath,
+          builder: (context, params) => ViewProfileNonAuthWidget(
+            userIDreference: params.getParam<UserRow>(
+              'userIDreference',
+              ParamType.SupabaseRow,
             ),
           ),
         ),
         FFRoute(
-          name: RatingsWidget.routeName,
-          path: RatingsWidget.routePath,
-          builder: (context, params) => RatingsWidget(),
+          name: EditProfileWidget.routeName,
+          path: EditProfileWidget.routePath,
+          builder: (context, params) => EditProfileWidget(),
         ),
         FFRoute(
-          name: FollowersWidget.routeName,
-          path: FollowersWidget.routePath,
-          builder: (context, params) => FollowersWidget(),
+          name: ResetPWPage1Widget.routeName,
+          path: ResetPWPage1Widget.routePath,
+          builder: (context, params) => ResetPWPage1Widget(),
         ),
         FFRoute(
-          name: ProfileSettingsWidget.routeName,
-          path: ProfileSettingsWidget.routePath,
-          builder: (context, params) => ProfileSettingsWidget(),
+          name: PageHomeWidget.routeName,
+          path: PageHomeWidget.routePath,
+          builder: (context, params) => PageHomeWidget(),
         ),
         FFRoute(
-          name: CommsStatusInfoWidget.routeName,
-          path: CommsStatusInfoWidget.routePath,
-          builder: (context, params) => CommsStatusInfoWidget(
-            commsRef: params.getParam(
-              'commsRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['commissionPost'],
+          name: PageViewUploadWidget.routeName,
+          path: PageViewUploadWidget.routePath,
+          builder: (context, params) => PageViewUploadWidget(
+            idReference: params.getParam<UploadsRow>(
+              'idReference',
+              ParamType.SupabaseRow,
             ),
           ),
         ),
         FFRoute(
-          name: OrderDetailsBuyerPOVWidget.routeName,
-          path: OrderDetailsBuyerPOVWidget.routePath,
-          builder: (context, params) => OrderDetailsBuyerPOVWidget(),
+          name: ViewProfileAuthWidget.routeName,
+          path: ViewProfileAuthWidget.routePath,
+          builder: (context, params) => ViewProfileAuthWidget(),
         ),
         FFRoute(
-          name: MessageUIWidget.routeName,
-          path: MessageUIWidget.routePath,
-          builder: (context, params) => MessageUIWidget(
-            personalReceiveChats: params.getParam(
-              'personalReceiveChats',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['chats'],
+          name: ViewConversationPageWidget.routeName,
+          path: ViewConversationPageWidget.routePath,
+          builder: (context, params) => ViewConversationPageWidget(),
+        ),
+        FFRoute(
+          name: ViewConversationMessagesPageWidget.routeName,
+          path: ViewConversationMessagesPageWidget.routePath,
+          builder: (context, params) => ViewConversationMessagesPageWidget(
+            idReference: params.getParam<ConversationRow>(
+              'idReference',
+              ParamType.SupabaseRow,
             ),
           ),
         ),
         FFRoute(
-          name: OrderDetailsArtistPOVWidget.routeName,
-          path: OrderDetailsArtistPOVWidget.routePath,
-          builder: (context, params) => OrderDetailsArtistPOVWidget(),
+          name: PageMarketplaceWidget.routeName,
+          path: PageMarketplaceWidget.routePath,
+          builder: (context, params) => PageMarketplaceWidget(),
         ),
         FFRoute(
-          name: CancelOrderBuyerPOVWidget.routeName,
-          path: CancelOrderBuyerPOVWidget.routePath,
-          builder: (context, params) => CancelOrderBuyerPOVWidget(
-            commsRef: params.getParam(
-              'commsRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['orders_comms'],
+          name: SignUpVerificationPageWidget.routeName,
+          path: SignUpVerificationPageWidget.routePath,
+          builder: (context, params) => SignUpVerificationPageWidget(
+            userEmail: params.getParam(
+              'userEmail',
+              ParamType.String,
+            ),
+            userPassword: params.getParam(
+              'userPassword',
+              ParamType.String,
+            ),
+            userCpassword: params.getParam(
+              'userCpassword',
+              ParamType.String,
             ),
           ),
         ),
         FFRoute(
-          name: CancelOrderArtistPOVCopyWidget.routeName,
-          path: CancelOrderArtistPOVCopyWidget.routePath,
-          builder: (context, params) => CancelOrderArtistPOVCopyWidget(),
+          name: SettingsWidget.routeName,
+          path: SettingsWidget.routePath,
+          builder: (context, params) => SettingsWidget(),
         ),
         FFRoute(
-          name: CommunityMessagingWidget.routeName,
-          path: CommunityMessagingWidget.routePath,
-          builder: (context, params) => CommunityMessagingWidget(),
+          name: ChangeEmailWidget.routeName,
+          path: ChangeEmailWidget.routePath,
+          builder: (context, params) => ChangeEmailWidget(),
         ),
         FFRoute(
-          name: ViewPostWidget.routeName,
-          path: ViewPostWidget.routePath,
-          builder: (context, params) => ViewPostWidget(
-            postDocRef: params.getParam(
-              'postDocRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['communityPosts'],
-            ),
-          ),
+          name: ChangePasswordWidget.routeName,
+          path: ChangePasswordWidget.routePath,
+          builder: (context, params) => ChangePasswordWidget(),
         ),
         FFRoute(
-          name: CreatePostWidget.routeName,
-          path: CreatePostWidget.routePath,
-          builder: (context, params) => CreatePostWidget(),
-        ),
-        FFRoute(
-          name: ForgotPassPageWidget.routeName,
-          path: ForgotPassPageWidget.routePath,
-          builder: (context, params) => ForgotPassPageWidget(),
-        ),
-        FFRoute(
-          name: ResetPasswordWidget.routeName,
-          path: ResetPasswordWidget.routePath,
-          builder: (context, params) => ResetPasswordWidget(),
-        ),
-        FFRoute(
-          name: CreateCommPostWidget.routeName,
-          path: CreateCommPostWidget.routePath,
-          builder: (context, params) => CreateCommPostWidget(),
-        ),
-        FFRoute(
-          name: MainSettingsWidget.routeName,
-          path: MainSettingsWidget.routePath,
-          builder: (context, params) => MainSettingsWidget(),
-        ),
-        FFRoute(
-          name: PrivacyPolicyWidget.routeName,
-          path: PrivacyPolicyWidget.routePath,
-          builder: (context, params) => PrivacyPolicyWidget(),
+          name: PageNotificationsWidget.routeName,
+          path: PageNotificationsWidget.routePath,
+          builder: (context, params) => PageNotificationsWidget(),
         ),
         FFRoute(
           name: AboutUsWidget.routeName,
@@ -255,109 +212,29 @@ GoRouter createRouter(AppStateNotifier appStateNotifier) => GoRouter(
           builder: (context, params) => AboutUsWidget(),
         ),
         FFRoute(
-          name: TermsAndConditionsWidget.routeName,
-          path: TermsAndConditionsWidget.routePath,
-          builder: (context, params) => TermsAndConditionsWidget(),
+          name: PrivacyPolicyWidget.routeName,
+          path: PrivacyPolicyWidget.routePath,
+          builder: (context, params) => PrivacyPolicyWidget(),
         ),
         FFRoute(
-          name: HelpAndSUpportWidget.routeName,
-          path: HelpAndSUpportWidget.routePath,
-          builder: (context, params) => HelpAndSUpportWidget(),
+          name: TermsConditionsWidget.routeName,
+          path: TermsConditionsWidget.routePath,
+          builder: (context, params) => TermsConditionsWidget(),
         ),
         FFRoute(
-          name: BecomeAnArtistWidget.routeName,
-          path: BecomeAnArtistWidget.routePath,
-          builder: (context, params) => BecomeAnArtistWidget(),
+          name: ViewCommissionsAllWidget.routeName,
+          path: ViewCommissionsAllWidget.routePath,
+          builder: (context, params) => ViewCommissionsAllWidget(),
         ),
         FFRoute(
-          name: SecurityAndPrivacyWidget.routeName,
-          path: SecurityAndPrivacyWidget.routePath,
-          builder: (context, params) => SecurityAndPrivacyWidget(),
-        ),
-        FFRoute(
-          name: ManageCommissionsWidget.routeName,
-          path: ManageCommissionsWidget.routePath,
-          builder: (context, params) => ManageCommissionsWidget(
-            page: params.getParam(
-              'page',
-              ParamType.String,
+          name: ViewCommissionsOneWidget.routeName,
+          path: ViewCommissionsOneWidget.routePath,
+          builder: (context, params) => ViewCommissionsOneWidget(
+            idReference: params.getParam<CommissionRow>(
+              'idReference',
+              ParamType.SupabaseRow,
             ),
           ),
-        ),
-        FFRoute(
-          name: NotificationsWidget.routeName,
-          path: NotificationsWidget.routePath,
-          builder: (context, params) => NotificationsWidget(),
-        ),
-        FFRoute(
-          name: RoleWidget.routeName,
-          path: RoleWidget.routePath,
-          builder: (context, params) => RoleWidget(),
-        ),
-        FFRoute(
-          name: IfArtistAddBioWidget.routeName,
-          path: IfArtistAddBioWidget.routePath,
-          builder: (context, params) => IfArtistAddBioWidget(),
-        ),
-        FFRoute(
-          name: SearchResultsWidget.routeName,
-          path: SearchResultsWidget.routePath,
-          builder: (context, params) => SearchResultsWidget(),
-        ),
-        FFRoute(
-          name: PricingGuideWidget.routeName,
-          path: PricingGuideWidget.routePath,
-          builder: (context, params) => PricingGuideWidget(),
-        ),
-        FFRoute(
-          name: ContactSupportWidget.routeName,
-          path: ContactSupportWidget.routePath,
-          builder: (context, params) => ContactSupportWidget(),
-        ),
-        FFRoute(
-          name: IfArtistSetCommissionStatusWidget.routeName,
-          path: IfArtistSetCommissionStatusWidget.routePath,
-          builder: (context, params) => IfArtistSetCommissionStatusWidget(),
-        ),
-        FFRoute(
-          name: OrdersCommsWidget.routeName,
-          path: OrdersCommsWidget.routePath,
-          builder: (context, params) => OrdersCommsWidget(),
-        ),
-        FFRoute(
-          name: CurrentCommsUIWidget.routeName,
-          path: CurrentCommsUIWidget.routePath,
-          builder: (context, params) => CurrentCommsUIWidget(
-            orderCommsRef: params.getParam(
-              'orderCommsRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['orders_comms'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: CreateCommsWidget.routeName,
-          path: CreateCommsWidget.routePath,
-          builder: (context, params) => CreateCommsWidget(
-            commissionerRef: params.getParam(
-              'commissionerRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['users'],
-            ),
-            commissionedRef: params.getParam(
-              'commissionedRef',
-              ParamType.DocumentReference,
-              isList: false,
-              collectionNamePath: ['users'],
-            ),
-          ),
-        ),
-        FFRoute(
-          name: RatingsMWidget.routeName,
-          path: RatingsMWidget.routePath,
-          builder: (context, params) => RatingsMWidget(),
         )
       ].map((r) => r.toRoute(appStateNotifier)).toList(),
     );
@@ -476,7 +353,6 @@ class FFParameters {
     String paramName,
     ParamType type, {
     bool isList = false,
-    List<String>? collectionNamePath,
   }) {
     if (futureParamValues.containsKey(paramName)) {
       return futureParamValues[paramName];
@@ -494,7 +370,6 @@ class FFParameters {
       param,
       type,
       isList,
-      collectionNamePath: collectionNamePath,
     );
   }
 }
@@ -528,7 +403,7 @@ class FFRoute {
 
           if (requireAuth && !appStateNotifier.loggedIn) {
             appStateNotifier.setRedirectLocationIfUnset(state.uri.toString());
-            return '/onboarding';
+            return '/splashIntro';
           }
           return null;
         },
@@ -543,13 +418,10 @@ class FFRoute {
               : builder(context, ffParams);
           final child = appStateNotifier.loading
               ? Container(
-                  color: FlutterFlowTheme.of(context).alternate,
-                  child: Center(
-                    child: Image.asset(
-                      'assets/images/Guhit_Logo_(1).png',
-                      width: double.infinity,
-                      fit: BoxFit.contain,
-                    ),
+                  color: Colors.transparent,
+                  child: Image.asset(
+                    'assets/images/ICON.png',
+                    fit: BoxFit.cover,
                   ),
                 )
               : page;

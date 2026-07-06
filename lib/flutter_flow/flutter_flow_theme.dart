@@ -108,6 +108,8 @@ abstract class FlutterFlowTheme {
   String get bodySmallFamily => typography.bodySmallFamily;
   bool get bodySmallIsCustom => typography.bodySmallIsCustom;
   TextStyle get bodySmall => typography.bodySmall;
+  String get customTextStyle1Family => typography.customTextStyle1Family;
+  TextStyle get customTextStyle1 => typography.customTextStyle1;
 
   Typography get typography => ThemeTypography(this);
 }
@@ -120,22 +122,22 @@ class LightModeTheme extends FlutterFlowTheme {
   @Deprecated('Use tertiary instead')
   Color get tertiaryColor => tertiary;
 
-  late Color primary = const Color(0xFFD01040);
-  late Color secondary = const Color(0xFFF8B828);
-  late Color tertiary = const Color(0xFF00A8D8);
-  late Color alternate = const Color(0xFFDBE2E7);
-  late Color primaryText = const Color(0xFF14181B);
-  late Color secondaryText = const Color(0xFF57636C);
-  late Color primaryBackground = const Color(0xFFF1F4F8);
+  late Color primary = const Color(0xFF025373);
+  late Color secondary = const Color(0xFF07B2D9);
+  late Color tertiary = const Color(0xFF07DBF2);
+  late Color alternate = const Color(0xFFE0E3E7);
+  late Color primaryText = const Color(0xFF013448);
+  late Color secondaryText = const Color(0xFF0BD9D9);
+  late Color primaryBackground = const Color(0xFFF2F2F2);
   late Color secondaryBackground = const Color(0xFFFFFFFF);
-  late Color accent1 = const Color(0x4CCE034A);
-  late Color accent2 = const Color(0x4DEDC03E);
-  late Color accent3 = const Color(0x4C029CFF);
-  late Color accent4 = const Color(0xB3FFFFFF);
-  late Color success = const Color(0xFF39D2C0);
-  late Color warning = const Color(0xFFFD7E29);
-  late Color error = const Color(0xFFD40000);
-  late Color info = const Color(0xFF1C4494);
+  late Color accent1 = const Color(0x4C4B39EF);
+  late Color accent2 = const Color(0x4D39D2C0);
+  late Color accent3 = const Color(0x4DEE8B60);
+  late Color accent4 = const Color(0xCCFFFFFF);
+  late Color success = const Color(0xFF249689);
+  late Color warning = const Color(0xFFF9CF58);
+  late Color error = const Color(0xFFFF5963);
+  late Color info = const Color(0xFFFFFFFF);
 }
 
 abstract class Typography {
@@ -184,6 +186,8 @@ abstract class Typography {
   String get bodySmallFamily;
   bool get bodySmallIsCustom;
   TextStyle get bodySmall;
+  String get customTextStyle1Family;
+  TextStyle get customTextStyle1;
 }
 
 class ThemeTypography extends Typography {
@@ -191,109 +195,116 @@ class ThemeTypography extends Typography {
 
   final FlutterFlowTheme theme;
 
-  String get displayLargeFamily => 'Roboto';
-  bool get displayLargeIsCustom => false;
-  TextStyle get displayLarge => GoogleFonts.roboto(
-        color: theme.primaryText,
-        fontWeight: FontWeight.normal,
-        fontSize: 57.0,
+  String get displayLargeFamily => 'Itim_Guhit Logo';
+  bool get displayLargeIsCustom => true;
+  TextStyle get displayLarge => TextStyle(
+        fontFamily: 'Itim_Guhit Logo',
+        color: theme.alternate,
+        fontWeight: FontWeight.w600,
+        fontSize: 64.0,
       );
   String get displayMediumFamily => 'Roboto';
   bool get displayMediumIsCustom => false;
   TextStyle get displayMedium => GoogleFonts.roboto(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
-        fontSize: 45.0,
+        fontWeight: FontWeight.w600,
+        fontSize: 44.0,
       );
   String get displaySmallFamily => 'Roboto';
   bool get displaySmallIsCustom => false;
   TextStyle get displaySmall => GoogleFonts.roboto(
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
-        fontSize: 34.0,
+        fontWeight: FontWeight.w600,
+        fontSize: 36.0,
       );
   String get headlineLargeFamily => 'Roboto';
   bool get headlineLargeIsCustom => false;
   TextStyle get headlineLarge => GoogleFonts.roboto(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 32.0,
       );
   String get headlineMediumFamily => 'Roboto';
   bool get headlineMediumIsCustom => false;
   TextStyle get headlineMedium => GoogleFonts.roboto(
         color: theme.primaryText,
-        fontWeight: FontWeight.normal,
+        fontWeight: FontWeight.w600,
         fontSize: 28.0,
       );
   String get headlineSmallFamily => 'Roboto';
   bool get headlineSmallIsCustom => false;
   TextStyle get headlineSmall => GoogleFonts.roboto(
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
-        fontSize: 20.0,
+        fontWeight: FontWeight.w600,
+        fontSize: 24.0,
       );
   String get titleLargeFamily => 'Roboto';
   bool get titleLargeIsCustom => false;
   TextStyle get titleLarge => GoogleFonts.roboto(
         color: theme.primaryText,
-        fontWeight: FontWeight.w500,
-        fontSize: 22.0,
+        fontWeight: FontWeight.w600,
+        fontSize: 20.0,
       );
   String get titleMediumFamily => 'Roboto';
   bool get titleMediumIsCustom => false;
   TextStyle get titleMedium => GoogleFonts.roboto(
-        color: theme.info,
-        fontWeight: FontWeight.w500,
-        fontSize: 16.0,
+        color: theme.primaryText,
+        fontWeight: FontWeight.w600,
+        fontSize: 18.0,
       );
   String get titleSmallFamily => 'Roboto';
   bool get titleSmallIsCustom => false;
   TextStyle get titleSmall => GoogleFonts.roboto(
-        color: theme.info,
-        fontWeight: FontWeight.w500,
-        fontSize: 14.0,
+        color: theme.primaryText,
+        fontWeight: FontWeight.w600,
+        fontSize: 16.0,
       );
-  String get labelLargeFamily => 'Roboto';
+  String get labelLargeFamily => 'Inter';
   bool get labelLargeIsCustom => false;
-  TextStyle get labelLarge => GoogleFonts.roboto(
+  TextStyle get labelLarge => GoogleFonts.inter(
         color: theme.secondaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get labelMediumFamily => 'Roboto';
+  String get labelMediumFamily => 'Inter';
   bool get labelMediumIsCustom => false;
-  TextStyle get labelMedium => GoogleFonts.roboto(
+  TextStyle get labelMedium => GoogleFonts.inter(
         color: theme.secondaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get labelSmallFamily => 'Roboto';
+  String get labelSmallFamily => 'Inter';
   bool get labelSmallIsCustom => false;
-  TextStyle get labelSmall => GoogleFonts.roboto(
+  TextStyle get labelSmall => GoogleFonts.inter(
         color: theme.secondaryText,
-        fontWeight: FontWeight.w500,
+        fontWeight: FontWeight.normal,
         fontSize: 12.0,
       );
-  String get bodyLargeFamily => 'Roboto';
+  String get bodyLargeFamily => 'Inter';
   bool get bodyLargeIsCustom => false;
-  TextStyle get bodyLarge => GoogleFonts.roboto(
+  TextStyle get bodyLarge => GoogleFonts.inter(
         color: theme.primaryText,
+        fontWeight: FontWeight.normal,
         fontSize: 16.0,
       );
-  String get bodyMediumFamily => 'Roboto';
+  String get bodyMediumFamily => 'Inter';
   bool get bodyMediumIsCustom => false;
-  TextStyle get bodyMedium => GoogleFonts.roboto(
+  TextStyle get bodyMedium => GoogleFonts.inter(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 14.0,
       );
-  String get bodySmallFamily => 'Roboto';
+  String get bodySmallFamily => 'Inter';
   bool get bodySmallIsCustom => false;
-  TextStyle get bodySmall => GoogleFonts.roboto(
+  TextStyle get bodySmall => GoogleFonts.inter(
         color: theme.primaryText,
         fontWeight: FontWeight.normal,
         fontSize: 12.0,
+      );
+  String get customTextStyle1Family => 'Primary Family';
+  TextStyle get customTextStyle1 => GoogleFonts.roboto(
+        color: Colors.white,
+        fontSize: 16.0,
       );
 }
 

@@ -1,20 +1,25 @@
 import 'package:provider/provider.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
-import 'auth/firebase_auth/firebase_user_provider.dart';
-import 'auth/firebase_auth/auth_util.dart';
 
-import 'backend/firebase/firebase_config.dart';
+import 'auth/supabase_auth/supabase_user_provider.dart';
+import 'auth/supabase_auth/auth_util.dart';
+
+import '/backend/supabase/supabase.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/flutter_flow_util.dart';
+import 'flutter_flow/nav/nav.dart';
+import 'index.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   GoRouter.optionURLReflectsImperativeAPIs = true;
   usePathUrlStrategy();
 
-  await initFirebase();
+  await SupaFlow.initialize();
 
   final appState = FFAppState(); // Initialize FFAppState
   await appState.initializePersistedState();
@@ -54,15 +59,13 @@ class _MyAppState extends State<MyApp> {
           .toList();
   late Stream<BaseAuthUser> userStream;
 
-  final authUserSub = authenticatedUserStream.listen((_) {});
-
   @override
   void initState() {
     super.initState();
 
     _appStateNotifier = AppStateNotifier.instance;
     _router = createRouter(_appStateNotifier);
-    userStream = guhitFirebaseUserStream()
+    userStream = aGuhitSupabaseUserStream()
       ..listen((user) {
         _appStateNotifier.update(user);
       });
@@ -73,13 +76,6 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  @override
-  void dispose() {
-    authUserSub.cancel();
-
-    super.dispose();
-  }
-
   void setThemeMode(ThemeMode mode) => safeSetState(() {
         _themeMode = mode;
       });
@@ -88,7 +84,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Guhit',
+      title: 'AGuhit',
       localizationsDelegates: [
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

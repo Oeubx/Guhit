@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Guhit</string>
+	<string>AGuhit</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -13,7 +13,7 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>Guhit</string>
+	<string>AGuhit</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 
@@ -22,25 +22,14 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
-	<array>
-        <dict>
-            <key>CFBundleTypeRole</key>
-            <string>Editor</string>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>com.googleusercontent.apps.317861237864-39k0t3m8p7enrc46l57hfk4sjiotb8j0</string>
-                
-            </array>
-        </dict>
-
-        <dict>
+	<array>        <dict>
         <key>CFBundleTypeRole</key>
         <string>Editor</string>
         <key>CFBundleURLName</key>
-        <string>guhit.com</string>
+        <string>aguhit.com</string>
         <key>CFBundleURLSchemes</key>
         <array>
-        <string>guhit</string>
+        <string>aguhit</string>
         </array>
         </dict>
     </array>

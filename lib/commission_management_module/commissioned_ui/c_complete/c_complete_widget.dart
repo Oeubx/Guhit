@@ -1,0 +1,465 @@
+import '/auth/supabase_auth/auth_util.dart';
+import '/backend/supabase/supabase.dart';
+import '/flutter_flow/flutter_flow_icon_button.dart';
+import '/flutter_flow/flutter_flow_radio_button.dart';
+import '/flutter_flow/flutter_flow_theme.dart';
+import '/flutter_flow/flutter_flow_util.dart';
+import '/flutter_flow/flutter_flow_widgets.dart';
+import '/flutter_flow/form_field_controller.dart';
+import 'dart:ui';
+import '/flutter_flow/custom_functions.dart' as functions;
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'c_complete_model.dart';
+export 'c_complete_model.dart';
+
+class CCompleteWidget extends StatefulWidget {
+  const CCompleteWidget({
+    super.key,
+    required this.commissionReference,
+  });
+
+  /// commission ID reference
+  final CommissionRow? commissionReference;
+
+  @override
+  State<CCompleteWidget> createState() => _CCompleteWidgetState();
+}
+
+class _CCompleteWidgetState extends State<CCompleteWidget> {
+  late CCompleteModel _model;
+
+  @override
+  void setState(VoidCallback callback) {
+    super.setState(callback);
+    _model.onUpdate();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _model = createModel(context, () => CCompleteModel());
+
+    _model.textFieldRemarksTextController ??= TextEditingController();
+    _model.textFieldRemarksFocusNode ??= FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _model.maybeDispose();
+
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: AlignmentDirectional(0.0, 1.0),
+      child: Container(
+        height: 393.1,
+        decoration: BoxDecoration(
+          color: FlutterFlowTheme.of(context).primaryText,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(25.0),
+            topRight: Radius.circular(25.0),
+          ),
+        ),
+        child: Padding(
+          padding: EdgeInsetsDirectional.fromSTEB(15.0, 15.0, 15.0, 15.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Complete Commission',
+                    style: FlutterFlowTheme.of(context).labelLarge.override(
+                          font: GoogleFonts.inter(
+                            fontWeight: FontWeight.w600,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .labelLarge
+                                .fontStyle,
+                          ),
+                          color: Colors.white,
+                          fontSize: 18.0,
+                          letterSpacing: 0.0,
+                          fontWeight: FontWeight.w600,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).labelLarge.fontStyle,
+                        ),
+                  ),
+                  FlutterFlowIconButton(
+                    borderRadius: 8.0,
+                    buttonSize: 40.0,
+                    icon: Icon(
+                      Icons.close_outlined,
+                      color: Colors.white,
+                      size: 24.0,
+                    ),
+                    onPressed: () async {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              ),
+              Divider(
+                thickness: 2.0,
+                color: FlutterFlowTheme.of(context).alternate,
+              ),
+              Column(
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'When completing, this request will be marked as finished.',
+                    textAlign: TextAlign.center,
+                    style: FlutterFlowTheme.of(context).bodyMedium.override(
+                          font: GoogleFonts.inter(
+                            fontWeight: FontWeight.w500,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .bodyMedium
+                                .fontStyle,
+                          ),
+                          color: Colors.white,
+                          fontSize: 15.0,
+                          letterSpacing: 0.0,
+                          fontWeight: FontWeight.w500,
+                          fontStyle:
+                              FlutterFlowTheme.of(context).bodyMedium.fontStyle,
+                        ),
+                  ),
+                ].divide(SizedBox(height: 5.0)),
+              ),
+              Padding(
+                padding: EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Text(
+                      'Have you been paid?',
+                      style: FlutterFlowTheme.of(context).titleSmall.override(
+                            font: GoogleFonts.roboto(
+                              fontWeight: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontWeight,
+                              fontStyle: FlutterFlowTheme.of(context)
+                                  .titleSmall
+                                  .fontStyle,
+                            ),
+                            color: Colors.white,
+                            letterSpacing: 0.0,
+                            fontWeight: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontWeight,
+                            fontStyle: FlutterFlowTheme.of(context)
+                                .titleSmall
+                                .fontStyle,
+                          ),
+                    ),
+                    FlutterFlowRadioButton(
+                      options: ['Not Yet Paid', 'Paid'].toList(),
+                      onChanged: (val) => safeSetState(() {}),
+                      controller: _model.radioButtonValueController ??=
+                          FormFieldController<String>('Not Yet Paid'),
+                      optionHeight: 32.0,
+                      textStyle:
+                          FlutterFlowTheme.of(context).labelMedium.override(
+                                font: GoogleFonts.inter(
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
+                                letterSpacing: 0.0,
+                                fontWeight: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontWeight,
+                                fontStyle: FlutterFlowTheme.of(context)
+                                    .labelMedium
+                                    .fontStyle,
+                              ),
+                      buttonPosition: RadioButtonPosition.left,
+                      direction: Axis.horizontal,
+                      radioButtonColor: FlutterFlowTheme.of(context).tertiary,
+                      inactiveRadioButtonColor:
+                          FlutterFlowTheme.of(context).error,
+                      toggleable: false,
+                      horizontalAlignment: WrapAlignment.start,
+                      verticalAlignment: WrapCrossAlignment.start,
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 10.0, 0.0, 10.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Padding(
+                      padding:
+                          EdgeInsetsDirectional.fromSTEB(0.0, 5.0, 0.0, 0.0),
+                      child: Container(
+                        width: double.infinity,
+                        child: TextFormField(
+                          controller: _model.textFieldRemarksTextController,
+                          focusNode: _model.textFieldRemarksFocusNode,
+                          autofocus: false,
+                          enabled: true,
+                          obscureText: false,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            labelStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  font: GoogleFonts.inter(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                                  color: Colors.black,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
+                            hintText: 'Enter Remarks (optional)',
+                            hintStyle: FlutterFlowTheme.of(context)
+                                .labelMedium
+                                .override(
+                                  font: GoogleFonts.inter(
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .labelMedium
+                                        .fontStyle,
+                                  ),
+                                  color: Colors.black,
+                                  letterSpacing: 0.0,
+                                  fontWeight: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontWeight,
+                                  fontStyle: FlutterFlowTheme.of(context)
+                                      .labelMedium
+                                      .fontStyle,
+                                ),
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0x00000000),
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: FlutterFlowTheme.of(context).error,
+                                width: 1.0,
+                              ),
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            filled: true,
+                            fillColor: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                          style:
+                              FlutterFlowTheme.of(context).bodyMedium.override(
+                                    font: GoogleFonts.inter(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .bodyMedium
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.black,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .bodyMedium
+                                        .fontStyle,
+                                  ),
+                          maxLines: 2,
+                          cursorColor: FlutterFlowTheme.of(context).primaryText,
+                          enableInteractiveSelection: true,
+                          validator: _model
+                              .textFieldRemarksTextControllerValidator
+                              .asValidator(context),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0.0, 15.0, 0.0, 0.0),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Align(
+                      alignment: AlignmentDirectional(1.0, 1.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          await NotificationTable().insert({
+                            'is_read': false,
+                            'made_by': currentUserUid,
+                            'made_for':
+                                widget!.commissionReference?.commissionerId,
+                            'notif_type':
+                                'is notifying you in regards with payment for the current commission.',
+                            'doc_ref':
+                                widget!.commissionReference?.commissionId,
+                            'created_at': supaSerialize<DateTime>(
+                                functions.getCurrentTime(getCurrentTimestamp)),
+                          });
+                        },
+                        text: 'Notify for Payment',
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).info,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.black,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(1.0, 1.0),
+                      child: FFButtonWidget(
+                        onPressed: () async {
+                          await CommissionTable().update(
+                            data: {
+                              'commission_status': 'Completed',
+                              'remarks':
+                                  _model.textFieldRemarksTextController.text,
+                              'updated_at': supaSerialize<DateTime>(functions
+                                  .getCurrentTime(getCurrentTimestamp)),
+                              'commissioned_isPaid': true,
+                            },
+                            matchingRows: (rows) => rows.eqOrNull(
+                              'commission_id',
+                              widget!.commissionReference?.commissionId,
+                            ),
+                          );
+                          await CommissionLogTable().insert({
+                            'from_status':
+                                widget!.commissionReference?.commissionStatus,
+                            'to_status': 'Completed',
+                            'updated_by': currentUserUid,
+                            'updated_at': supaSerialize<DateTime>(
+                                functions.getCurrentTime(getCurrentTimestamp)),
+                            'c_remarks':
+                                _model.textFieldRemarksTextController.text,
+                            'commission_idRef':
+                                widget!.commissionReference?.commissionId,
+                          });
+                          await NotificationTable().insert({
+                            'is_read': false,
+                            'made_by': currentUserUid,
+                            'made_for':
+                                widget!.commissionReference?.commissionerId,
+                            'notif_type':
+                                'has completed the commission. Remarks : ${_model.textFieldRemarksTextController.text}',
+                            'doc_ref':
+                                widget!.commissionReference?.commissionId,
+                            'created_at': supaSerialize<DateTime>(
+                                functions.getCurrentTime(getCurrentTimestamp)),
+                          });
+                          safeSetState(() {
+                            _model.textFieldRemarksTextController?.clear();
+                          });
+                          Navigator.pop(context);
+                        },
+                        text: 'Complete',
+                        options: FFButtonOptions(
+                          height: 40.0,
+                          padding: EdgeInsetsDirectional.fromSTEB(
+                              16.0, 0.0, 16.0, 0.0),
+                          iconPadding: EdgeInsetsDirectional.fromSTEB(
+                              0.0, 0.0, 0.0, 0.0),
+                          color: FlutterFlowTheme.of(context).tertiary,
+                          textStyle:
+                              FlutterFlowTheme.of(context).titleSmall.override(
+                                    font: GoogleFonts.roboto(
+                                      fontWeight: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontWeight,
+                                      fontStyle: FlutterFlowTheme.of(context)
+                                          .titleSmall
+                                          .fontStyle,
+                                    ),
+                                    color: Colors.black,
+                                    letterSpacing: 0.0,
+                                    fontWeight: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontWeight,
+                                    fontStyle: FlutterFlowTheme.of(context)
+                                        .titleSmall
+                                        .fontStyle,
+                                  ),
+                          elevation: 0.0,
+                          borderRadius: BorderRadius.circular(8.0),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ].divide(SizedBox(height: 5.0)),
+          ),
+        ),
+      ),
+    );
+  }
+}
